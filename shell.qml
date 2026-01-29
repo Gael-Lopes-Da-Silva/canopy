@@ -6,10 +6,8 @@ import qs.modules.wallpaper
 import qs.modules.wrapper
 
 ShellRoot {
-    id: root
-
     Wallpaper {}
-    Wrapper {}
+    // Wrapper {}
 
     Shortcuts {}
 }

@@ -8,15 +8,13 @@ import Quickshell.Io
 import qs.services
 
 Singleton {
-    id: root
-
-    property var data: JSON.parse(jsonConfig.text())
+    property var data: JSON.parse(configData.text())
     property var general: data.general
     property var appearance: data.appearance
 
     FileView {
-        id: jsonConfig
-        path: Qt.resolvedUrl("../shell.json")
+        id: configData
+        path: Paths.join(Paths.root, "shell.json")
         watchChanges: true
         blockLoading: true
 

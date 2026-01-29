@@ -5,6 +5,7 @@ import Quickshell
 import qs.configs
 import qs.components
 import qs.services
+import qs.services.ipc
 
 Loader {
     required property var screen

@@ -5,8 +5,6 @@ import QtQuick
 import Quickshell
 
 Singleton {
-    id: root
-
     property bool showSidebar: true
     property bool showWrapper: true
 }

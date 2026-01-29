@@ -5,8 +5,6 @@ import Quickshell.Io
 import qs.services
 
 Scope {
-    id: root
-
     IpcHandler {
         target: "sidebar"
 

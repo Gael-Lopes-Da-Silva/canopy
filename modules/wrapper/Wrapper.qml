@@ -5,6 +5,7 @@ import Quickshell.Wayland
 
 import qs.configs
 import qs.services
+import qs.services.ipc
 import qs.modules.wrapper.sidebar
 
 Loader {

@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
@@ -6,24 +8,22 @@ import qs.configs
 import qs.services
 
 Loader {
-    id: root
-    active: !Ipc.compositor.monitor?.workspace?.fullscreen
-    visible: !Ipc.compositor.monitor?.workspace?.fullscreen
-    sourceComponent: Variants {
-        model: Quickshell.screens
+    active: true
+    visible: true
+    sourceComponent: Component {
+        Variants {
+            model: Quickshell.screens
+            delegate: PanelWindow {
+                id: wallpaper
 
-        Scope {
-            required property var modelData
+                required property var modelData
 
-            id: wallpaper
+                property string notFoundPath: Paths.join(Paths.wallpapers, "wallpaper_not_found")
+                property string defaultPath: Paths.join(Paths.wallpapers, "wallpaper_default")
+                property string customPath: Config.general?.wallpaper?.path ?? ""
 
-            PanelWindow {
-                screen: wallpaper.modelData
+                screen: modelData
                 color: "transparent"
-
-                WlrLayershell.namespace: Globals.appId + "_wallpaper"
-                WlrLayershell.exclusionMode: ExclusionMode.Ignore
-                WlrLayershell.layer: WlrLayer.Background
 
                 anchors {
                     top: true
@@ -32,31 +32,51 @@ Loader {
                     bottom: true
                 }
 
+                WlrLayershell.namespace: Globals.namespace + "_wallpaper"
+                WlrLayershell.exclusionMode: ExclusionMode.Ignore
+                WlrLayershell.layer: WlrLayer.Background
+
                 Loader {
-                    active: !Config.general.wallpaper.animated
-                    visible: !Config.general.wallpaper.animated
-                    sourceComponent: Image {
-                        asynchronous: true
-                        source: Quickshell.shellDir + "/" + Config.general.wallpaper.path
-                        fillMode: Image.PreserveAspectCrop
-                    }
+                    id: wallpaperLoader
+                    active: true
+                    visible: true
+                    sourceComponent: true ? wallpaperImage : wallpaperAnimatedImage
 
                     anchors {
                         fill: parent
                     }
                 }
 
-                Loader {
-                    active: Config.general.wallpaper.animated
-                    visible: Config.general.wallpaper.animated
-                    sourceComponent: AnimatedImage {
-                        asynchronous: true
-                        source: Quickshell.shellDir + "/" + Config.general.wallpaper.path
-                        fillMode: Image.PreserveAspectCrop
-                    }
+                Component {
+                    id: wallpaperImage
 
-                    anchors {
-                        fill: parent
+                    Image {
+                        asynchronous: true
+                        source: Qt.resolvedUrl(wallpaper.customPath ? Paths.resolve(wallpaper.customPath) : wallpaper.defaultPath)
+                        fillMode: Image.PreserveAspectCrop
+
+                        onStatusChanged: {
+                            if (status === Image.Error && source !== wallpaper.notFoundPath) {
+                                source = Qt.resolvedUrl(wallpaper.notFoundPath);
+                            }
+                        }
+                    }
+                }
+
+                Component {
+                    id: wallpaperAnimatedImage
+
+                    AnimatedImage {
+                        asynchronous: true
+                        source: Qt.resolvedUrl(wallpaper.customPath ? Paths.resolve(wallpaper.customPath) : wallpaper.defaultPath)
+                        fillMode: Image.PreserveAspectCrop
+                        playing: true
+
+                        onStatusChanged: {
+                            if (status === AnimatedImage.Error && source !== wallpaper.notFoundPath) {
+                                source = Qt.resolvedUrl(wallpaper.notFoundPath);
+                            }
+                        }
                     }
                 }
             }

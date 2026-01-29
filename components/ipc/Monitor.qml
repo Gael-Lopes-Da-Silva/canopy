@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell
 
 QtObject {
     property string monitorId: ""
