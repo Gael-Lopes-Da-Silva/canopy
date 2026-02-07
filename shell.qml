@@ -1,11 +1,11 @@
 import QtQuick
 import Quickshell
 
-import qs.modules
-import qs.modules.wrapper
+import qs.Modules
+import qs.Modules.Panels
 
 ShellRoot {
     Wallpaper {}
-    // Wrapper {}
-    // Shortcuts {}
+
+    Osd {}
 }
