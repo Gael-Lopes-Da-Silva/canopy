@@ -21,9 +21,6 @@ Singleton {
         blockLoading: true
         watchChanges: true
 
-        onFileChanged: {
-            console.info("Configuration reloaded !");
-            reload();
-        }
+        onFileChanged: reload()
     }
 }

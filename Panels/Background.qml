@@ -29,15 +29,39 @@ PanelWindow {
 
         property string currentSource
 
-        asynchronous: true
-        autoTransform: true
-        cache: true
-        mirror: false
-        mirrorVertically: false
-        smooth: true
-        mipmap: false
-        fillMode: Image.PreserveAspectFit
         source: Qt.resolvedUrl(currentSource)
+        asynchronous: true
+        cache: true
+        autoTransform: Config.wallpaper?.auto_transform ?? true
+        mirror: Config.wallpaper?.horizontal_mirror ?? false
+        mirrorVertically: Config.wallpaper?.vertical_mirror ?? false
+        smooth: Config.wallpaper?.smooth ?? true
+        mipmap: Config.wallpaper?.mipmap ?? false
+        fillMode: {
+            if (!Config.wallpaper?.fill_mode) {
+                return Image.PreserveAspectFit;
+            }
+
+            switch (Config.wallpaper?.fill_mode) {
+            case "Stretch":
+                return Image.Stretch;
+            case "PreserveAspectFit":
+                return Image.PreserveAspectFit;
+            case "PreserveAspectCrop":
+                return Image.PreserveAspectCrop;
+            case "Tile":
+                return Image.Tile;
+            case "TileVertically":
+                return Image.TileVertically;
+            case "TileHorizontally":
+                return Image.TileHorizontally;
+            case "Pad":
+                return Image.Pad;
+            default:
+                console.warn("Wallpaper: Invalid fill mode, defaulting to PreserveAspectFit !");
+                return Image.PreserveAspectFit;
+            }
+        }
 
         anchors {
             fill: parent

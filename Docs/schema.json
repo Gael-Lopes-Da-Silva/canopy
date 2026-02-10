@@ -7,14 +7,70 @@
       "description": "The wallpaper options.",
       "properties": {
         "path": {
-          "type": "string",
+          "type": ["string", "null"],
           "description": "Path to the wallpaper image. Can be absolute, relative, or empty to use default.\n\nDefault: ./Assets/Wallpapers/default.png"
+        },
+        "horizontal_mirror": {
+          "type": ["boolean", "null"],
+          "description": "This property holds whether the image should be horizontally inverted (effectively displaying a mirrored image).\n\nDefault: false"
+        },
+        "vertical_mirror": {
+          "type": ["boolean", "null"],
+          "description": "This property holds whether the image should be vertically inverted (effectively displaying a mirrored image).\n\nDefault: false"
+        },
+        "smooth": {
+          "type": ["boolean", "null"],
+          "description": "This property holds whether the image is smoothly filtered when scaled or transformed.\n\nDefault: true"
+        },
+        "mipmap": {
+          "type": ["boolean", "null"],
+          "description": "This property holds whether the image uses mipmap filtering when scaled or transformed.\n\nDefault: false"
+        },
+        "auto_transform": {
+          "type": ["boolean", "null"],
+          "description": "This property holds whether the image should automatically apply image transformation metadata such as EXIF orientation.\n\nDefault: true"
+        },
+        "fill_mode": {
+          "type": ["string", "null"],
+          "description": "Set this property to define what happens when the source image has a different size than the item.\n\nDefault: PreserveAspectFit",
+          "oneOf": [
+            {
+              "const": "Stretch",
+              "description": "Scale the image to fill the area exactly, ignoring aspect ratio."
+            },
+            {
+              "const": "PreserveAspectFit",
+              "description": "Scale the image to fit inside the area while preserving aspect ratio."
+            },
+            {
+              "const": "PreserveAspectCrop",
+              "description": "Scale the image to completely cover the area while preserving aspect ratio."
+            },
+            {
+              "const": "Tile",
+              "description": "Repeat the image in both directions."
+            },
+            {
+              "const": "TileVertically",
+              "description": "Repeat the image vertically only."
+            },
+            {
+              "const": "TileHorizontally",
+              "description": "Repeat the image horizontally only."
+            },
+            {
+              "const": "Pad",
+              "description": "Center the image without scaling; pad the remaining area."
+            },
+            {
+              "const": null,
+              "description": "Use the default fill mode."
+            }
+          ]
         }
       },
-      "required": ["path"],
       "additionalProperties": false
     }
   },
-  "required": ["wallpaper"],
   "additionalProperties": false
 }
