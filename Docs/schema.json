@@ -2,71 +2,112 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "wallpaper": {
-      "type": "object",
-      "description": "The wallpaper options.",
+    "$schema": {
+      "type": "string",
+      "description": "The schema to verify this document against."
+    },
+    "options": {
+      "type": ["object", "null"],
+      "description": "The options of the shell panels.",
       "properties": {
-        "path": {
-          "type": ["string", "null"],
-          "description": "Path to the wallpaper image. Can be absolute, relative, or empty to use default.\n\nDefault: ./Assets/Wallpapers/default.png"
-        },
-        "horizontal_mirror": {
-          "type": ["boolean", "null"],
-          "description": "This property holds whether the image should be horizontally inverted (effectively displaying a mirrored image).\n\nDefault: false"
-        },
-        "vertical_mirror": {
-          "type": ["boolean", "null"],
-          "description": "This property holds whether the image should be vertically inverted (effectively displaying a mirrored image).\n\nDefault: false"
-        },
-        "smooth": {
-          "type": ["boolean", "null"],
-          "description": "This property holds whether the image is smoothly filtered when scaled or transformed.\n\nDefault: true"
-        },
-        "mipmap": {
-          "type": ["boolean", "null"],
-          "description": "This property holds whether the image uses mipmap filtering when scaled or transformed.\n\nDefault: false"
-        },
-        "auto_transform": {
-          "type": ["boolean", "null"],
-          "description": "This property holds whether the image should automatically apply image transformation metadata such as EXIF orientation.\n\nDefault: true"
-        },
-        "fill_mode": {
-          "type": ["string", "null"],
-          "description": "Set this property to define what happens when the source image has a different size than the item.\n\nDefault: PreserveAspectFit",
-          "oneOf": [
-            {
-              "const": "Stretch",
-              "description": "Scale the image to fill the area exactly, ignoring aspect ratio."
+        "wallpaper": {
+          "type": ["object", "null"],
+          "description": "The wallpaper options.",
+          "properties": {
+            "enable": {
+              "type": ["boolean", "null"],
+              "description": "Enables the wallpaper panel.\n\nDefault: true"
             },
-            {
-              "const": "PreserveAspectFit",
-              "description": "Scale the image to fit inside the area while preserving aspect ratio."
+            "path": {
+              "type": ["string", "null"],
+              "description": "File path to the wallpaper image. May be absolute or relative. If empty or null, the default wallpaper image is used.\n\nDefault: ./Assets/Wallpapers/canopy1.png"
             },
-            {
-              "const": "PreserveAspectCrop",
-              "description": "Scale the image to completely cover the area while preserving aspect ratio."
+            "horizontal_mirror": {
+              "type": ["boolean", "null"],
+              "description": "Mirrors the wallpaper image horizontally, creating a left-to-right flipped background.\n\nDefault: false"
             },
-            {
-              "const": "Tile",
-              "description": "Repeat the image in both directions."
+            "vertical_mirror": {
+              "type": ["boolean", "null"],
+              "description": "Mirrors the wallpaper image vertically, creating a top-to-bottom flipped background.\n\nDefault: false"
             },
-            {
-              "const": "TileVertically",
-              "description": "Repeat the image vertically only."
+            "smooth": {
+              "type": ["boolean", "null"],
+              "description": "Enables smooth filtering when the wallpaper is scaled or transformed, reducing visible pixelation.\n\nDefault: true"
             },
-            {
-              "const": "TileHorizontally",
-              "description": "Repeat the image horizontally only."
+            "mipmap": {
+              "type": ["boolean", "null"],
+              "description": "Uses mipmap filtering for the wallpaper when scaling, improving visual quality at varying resolutions.\n\nDefault: false"
             },
-            {
-              "const": "Pad",
-              "description": "Center the image without scaling; pad the remaining area."
+            "auto_transform": {
+              "type": ["boolean", "null"],
+              "description": "Automatically applies image metadata (such as EXIF orientation) so the wallpaper is displayed correctly.\n\nDefault: true"
             },
-            {
-              "const": null,
-              "description": "Use the default fill mode."
+            "cache": {
+              "type": ["boolean", "null"],
+              "description": "Caches the wallpaper image in memory to improve loading performance.\n\nDefault: true"
+            },
+            "asynchronous": {
+              "type": ["boolean", "null"],
+              "description": "Loads wallpaper images from disk asynchronously to avoid blocking the main UI thread.\n\nDefault: true"
+            },
+            "fill_mode": {
+              "type": ["string", "null"],
+              "description": "Controls how the wallpaper image is sized and positioned when its dimensions do not match the screen or background area.\n\nDefault: PreserveAspectFit",
+              "oneOf": [
+                {
+                  "const": "Stretch",
+                  "description": "Stretches the wallpaper to fill the entire area, ignoring the original aspect ratio."
+                },
+                {
+                  "const": "PreserveAspectFit",
+                  "description": "Scales the wallpaper to fit within the area while preserving its aspect ratio. Empty space may remain."
+                },
+                {
+                  "const": "PreserveAspectCrop",
+                  "description": "Scales the wallpaper to fully cover the area while preserving aspect ratio. Parts of the image may be cropped."
+                },
+                {
+                  "const": "Tile",
+                  "description": "Repeats the wallpaper image in both horizontal and vertical directions."
+                },
+                {
+                  "const": "TileVertically",
+                  "description": "Repeats the wallpaper image vertically while keeping its horizontal size."
+                },
+                {
+                  "const": "TileHorizontally",
+                  "description": "Repeats the wallpaper image horizontally while keeping its vertical size."
+                },
+                {
+                  "const": "Pad",
+                  "description": "Centers the wallpaper without scaling and fills remaining space with padding."
+                },
+                {
+                  "const": null,
+                  "description": "Uses the default wallpaper fill behavior."
+                }
+              ]
             }
-          ]
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "themes": {
+      "type": ["object", "null"],
+      "description": "The themes of the shell panels.",
+      "properties": {
+        "wallpaper": {
+          "type": ["object", "null"],
+          "description": "The wallpaper themes.",
+          "properties": {
+            "background": {
+              "type": ["string", "null"],
+              "description": "Color of the wallpaper background. May be either the name of the color or an hexadecimal value.\n\nDefault: #111111"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

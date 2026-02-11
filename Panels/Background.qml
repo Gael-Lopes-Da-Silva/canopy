@@ -4,14 +4,16 @@ import Quickshell
 import qs.Utils
 
 PanelWindow {
-    id: background
+    id: background_window
 
     required property var modelData
 
-    color: "#111111"
+    color: Config.themes?.wallpaper?.background ?? "#111111"
+    visible: Config.options?.wallpaper?.enable ?? true
     focusable: false
     aboveWindows: false
     exclusionMode: ExclusionMode.Ignore
+    screen: modelData
 
     anchors {
         top: true
@@ -24,25 +26,25 @@ PanelWindow {
         id: background_image
 
         readonly property string customSource: Config.wallpaper?.path ?? ""
-        readonly property string defaultSource: Paths.join(Paths.wallpapers, "default")
+        readonly property string defaultSource: Paths.join(Paths.wallpapers, "canopy1")
         readonly property string fallbackSource: Paths.join(Paths.wallpapers, "not_found")
 
         property string currentSource
 
         source: Qt.resolvedUrl(currentSource)
-        asynchronous: true
-        cache: true
-        autoTransform: Config.wallpaper?.auto_transform ?? true
-        mirror: Config.wallpaper?.horizontal_mirror ?? false
-        mirrorVertically: Config.wallpaper?.vertical_mirror ?? false
-        smooth: Config.wallpaper?.smooth ?? true
-        mipmap: Config.wallpaper?.mipmap ?? false
+        asynchronous: Config.options?.wallpaper?.asynchronous ?? true
+        cache: Config.options?.wallpaper?.cache ?? true
+        autoTransform: Config.options?.wallpaper?.auto_transform ?? true
+        mirror: Config.options?.wallpaper?.horizontal_mirror ?? false
+        mirrorVertically: Config.options?.wallpaper?.vertical_mirror ?? false
+        smooth: Config.options?.wallpaper?.smooth ?? true
+        mipmap: Config.options?.wallpaper?.mipmap ?? false
         fillMode: {
-            if (!Config.wallpaper?.fill_mode) {
+            if (!Config.options?.wallpaper?.fill_mode) {
                 return Image.PreserveAspectFit;
             }
 
-            switch (Config.wallpaper?.fill_mode) {
+            switch (Config.options?.wallpaper?.fill_mode) {
             case "Stretch":
                 return Image.Stretch;
             case "PreserveAspectFit":

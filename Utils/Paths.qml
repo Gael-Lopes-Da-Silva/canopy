@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 
 Singleton {
-    id: path
+    id: paths
 
     readonly property string home: Quickshell.env("HOME")
     readonly property string base: Quickshell.shellDir

@@ -9,11 +9,13 @@ import qs.Utils
 Singleton {
     id: config
 
-    readonly property var all: JSON.parse(config_fileviw.text())
-    readonly property var wallpaper: all.wallpaper ?? null
+    readonly property var all: JSON.parse(config_fileview.text())
+
+    readonly property var options: all.options ?? null
+    readonly property var themes: all.themes ?? null
 
     FileView {
-        id: config_fileviw
+        id: config_fileview
 
         readonly property string defaultSource: Paths.join(Paths.base, "shell.json")
 

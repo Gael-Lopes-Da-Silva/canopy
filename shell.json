@@ -1,6 +1,8 @@
 {
   "$schema": "./Docs/schema.json",
-  "wallpaper": {
-    "path": ""
+  "options": {
+    "wallpaper": {
+      "enable": true
+    }
   }
 }
