@@ -7,7 +7,17 @@ ShellRoot {
     Variants {
         model: Quickshell.screens
         delegate: Component {
-            Background {}
+            Item {
+                required property var modelData
+
+                Background {
+                    screen: modelData
+                }
+
+                FrameBar {
+                    screen: modelData
+                }
+            }
         }
     }
 }

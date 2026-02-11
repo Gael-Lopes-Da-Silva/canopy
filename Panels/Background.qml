@@ -4,16 +4,14 @@ import Quickshell
 import qs.Utils
 
 PanelWindow {
-    id: background_window
-
-    required property var modelData
+    id: background
 
     color: Config.themes?.wallpaper?.background ?? "#111111"
     visible: Config.options?.wallpaper?.enable ?? true
+    exclusionMode: ExclusionMode.Ignore
     focusable: false
     aboveWindows: false
-    exclusionMode: ExclusionMode.Ignore
-    screen: modelData
+    mask: Region {}
 
     anchors {
         top: true
